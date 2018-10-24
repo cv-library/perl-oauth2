@@ -182,7 +182,6 @@ sub collect_action_params {
     else {
         # Not strict  just bulk copy.
         my $result = {
-            %$default,
             (
                 map {($_, $oauth2_args->{$_})}
                     @{ $self->{"$action\_required_params"} },
@@ -195,7 +194,11 @@ sub collect_action_params {
                 delete $result->{$key};
             }
         }
-        return $result;
+        return {
+            %$default,
+            %$result
+        }
+
     }
 }
 
